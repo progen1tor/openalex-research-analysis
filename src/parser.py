@@ -1,37 +1,60 @@
 import requests 
 import json 
+import logging 
 from urllib.parse import urljoin, urlparse
-from src import USER_AGENT, START_URL
+from src.constants import USER_AGENT, START_URL, LOG_FILENAME
 
-def test():
+logging.basicConfig(
+    filename=LOG_FILENAME,
+    level=logging.ERROR,
+    format='[%(asctime)s] [%(levelname)s] - %(message)s'
+)
+
+def requester(session: requests.Session, url: str) -> dict | None:
+    try: 
+        rsp = session.get(url, timeout=10)
+        rsp.raise_for_status()
+        json_data = rsp.json()
+        return json_data 
+    
+    except json.JSONDecodeError as err:
+        logging.error(f'{type(err).__name__}: {err} | {url}')
+        return None 
+        
+    except requests.exceptions.Timeout as err:
+        logging.error(f'{type(err).__name__}: {err} | {url}')
+        return None 
+        
+    except requests.exceptions.HTTPError as err:
+        logging.error(f'{type(err).__name__}: {err} | {url}')
+        return None 
+        
+    except requests.exceptions.ConnectionError as err:
+        logging.error(f'{type(err).__name__}: {err} | {url}')
+        return None 
+        
+    except Exception as err:
+        logging.error(f'{type(err).__name__}: {err} | {url}')
+        return None 
+
+
+def works_getter() -> dict | None:
     with requests.Session() as s:
         s.headers.update({'User-Agent': USER_AGENT})
-        rsp = s.get(f'{START_URL}/institutions?search=hse')
-        try:
-            json_data = rsp.json()
-            results = json_data['results']
-            target_id = results[0].get('id')  # get the tgt id of hse 
+        
+        json_data = requester(s, f'{START_URL}/institutions?search=hse')
+        if json_data:
+            results = json_data.get('results')
+            target_id = results[0].get('id') if results else None  # get the tgt id of hse 
             
             if target_id:
-                iden = urlparse(target_id).path
+                iden = urlparse(target_id).path 
                 target_url = urljoin(START_URL, iden)
-                hse_rsp = s.get(target_url)
                 
-                try: 
-                    json_hse_data = hse_rsp.json()
-                    all_works_url = json_hse_data.get('works_api_url')  # ? is it correct 
+                hse_json_data = requester(s, target_url)
+                if hse_json_data:
+                    all_works_url = hse_json_data.get('works_api_url') 
                     
                     if all_works_url:
-                        rsp_works = s.get(all_works_url)
-                        try:
-                            all_works_json = rsp_works.json()
-                            return all_works_json
-                            
-                        except json.JSONDecodeError as err:
-                            print(err)
-
-                except json.JSONDecodeError as err:
-                    print(err)
-            
-        except json.JSONDecodeError as err:
-            print(err)
+                        all_works_json = requester(s, all_works_url)
+                        return all_works_json
