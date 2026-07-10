@@ -8,9 +8,7 @@ from urllib.parse import urlparse
 def raw_data_loader(filename: str = RAW_DATA_FILENAME) -> list[dict[str, Any]]:
     with open(filename, encoding='utf8') as file:
         data = json.load(file)
-        res = data.get('results')
-        if res:
-            return res 
+        return data 
         
         
 def id_extractor(url: str) -> str: 
