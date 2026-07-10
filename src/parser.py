@@ -2,7 +2,7 @@ import requests
 import json 
 import logging 
 from urllib.parse import urljoin, urlparse
-from src.constants import USER_AGENT, START_URL, LOG_FILENAME
+from src.constants import USER_AGENT, START_URL, LOG_FILENAME, PAGE_LIMIT
 
 logging.basicConfig(
     filename=LOG_FILENAME,
@@ -56,5 +56,10 @@ def works_getter() -> dict | None:
                     all_works_url = hse_json_data.get('works_api_url') 
                     
                     if all_works_url:
-                        all_works_json = requester(s, all_works_url)
-                        return all_works_json
+                        res = []
+                        page_count = 0 
+                        while page_count != PAGE_LIMIT:
+                            all_works_json = requester(s, f'{all_works_url}&per_page=200')
+                            res.extend(all_works_json.get('results'))
+                            page_count += 1 
+                        return res 
