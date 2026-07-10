@@ -1,3 +1,7 @@
 src/tests.ipynb
+src/__pycache__
 
 data/raw.json
+
+*.log
+*.pyc 
