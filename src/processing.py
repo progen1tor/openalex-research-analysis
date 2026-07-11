@@ -59,4 +59,4 @@ def dataframe_preparer(data: list[dict[str, Any]]) -> pd.DataFrame:
     return df
 
     
-df = dataframe_preparer(raw_data_loader(RAW_DATA_FILENAME))
+openalex_dataframe = dataframe_preparer(raw_data_loader(RAW_DATA_FILENAME))
