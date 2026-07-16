@@ -40,7 +40,7 @@ def open_access_statistics_graph(df: pd.DataFrame) -> None:
     
     plt.title('Open Access Percentage by Year')
     plt.xlabel('Publication year')
-    plt.ylabel('Open Access (%)')
+    plt.ylabel('Open access (%)')
     plt.grid(alpha=.3)
     
     plt.savefig(
@@ -52,33 +52,26 @@ def open_access_statistics_graph(df: pd.DataFrame) -> None:
     
     
 def publication_types_graph(df: pd.DataFrame) -> None: 
-    data = publication_types(df)
-    data_pt_1 = data.loc[data.publication_count >= 30].reset_index()
-    data_pt_2 = data.loc[data.publication_count < 20].reset_index()
+    data = publication_types(df).reset_index()
     
-    _, axes = plt.subplots(nrows=1, ncols=2, figsize=(16, 8))
-    sns.barplot(
-        data_pt_1, 
+    plt.figure(figsize=(10, 5))
+    gr = sns.barplot(
+        data, 
         x='type', 
-        y='publication_count', 
-        ax=axes[0],
-        palette='rocket',
-        hue='type'
-        )
-    sns.barplot(
-        data_pt_2, 
-        x='type', 
-        y='publication_count', 
-        ax=axes[1], 
-        palette='mako',
-        hue='type'
-        )
+        y='publication_count',
+        hue='type',
+        palette='mako'
+    )
     
-    plt.suptitle('Number of Publications by Type', y=.94, fontsize=20)
-    axes[0].set_xlabel('Type', fontsize=13.5)
-    axes[1].set_xlabel('Type', fontsize=13.5)
-    axes[0].tick_params(axis='x', labelsize=12)  
-    axes[1].tick_params(axis='x', labelsize=10, labelrotation=45)
+    for c in gr.containers:
+        gr.bar_label(c, fontsize=10, padding=3)
+    ymx = data.publication_count.max()
+    gr.set_ylim(0, ymx * 1.1)
+    
+    plt.title('Number of Publications by Type')
+    plt.xlabel('Type')
+    plt.ylabel('Publication count')
+    plt.tick_params(axis='x', labelsize=10, labelrotation=45)
     
     plt.savefig(
         f'{GRAPHS_PATH}publication_types_graph.png', 
@@ -90,6 +83,7 @@ def publication_types_graph(df: pd.DataFrame) -> None:
     
 def most_popular_themes_graph(df: pd.DataFrame) -> None: 
     data = most_popular_themes(df).iloc[:10].reset_index() 
+    
     plt.figure(figsize=(10, 6))
     sns.barplot(
         data,
@@ -100,7 +94,7 @@ def most_popular_themes_graph(df: pd.DataFrame) -> None:
     ) 
     
     plt.suptitle('Top 10 Popular Topics', x=.32, y=.94, fontsize=14)
-    plt.xlabel('Number of Publications')
+    plt.xlabel('Number of publications')
     plt.ylabel('')
     plt.savefig(
         f'{GRAPHS_PATH}most_popular_themes_graph.png', 
