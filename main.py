@@ -70,7 +70,7 @@ def main():
     # get raw data & transform it into dataframe 
     raw_data = raw_data_loader(RAW_DATA_FILENAME)
     openalex_dataframe = dataframe_preparer(raw_data)
-    openalex_dataframe.to_csv(PROCESSED_DATA_FILENAME)
+    openalex_dataframe.to_csv(PROCESSED_DATA_FILENAME, index=False)
 
     # analysis 
     analyser(openalex_dataframe, ANALYSIS_RESULTS_PATH)
