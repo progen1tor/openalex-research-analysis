@@ -7,7 +7,7 @@ def get_publication_count(df: pd.DataFrame) -> int:
 
 def get_time_range(df: pd.DataFrame) -> tuple[int, int]:
     '''Returns minimum and maximum year of publication'''
-    return df.publication_year.min(), df.publication_year.max()
+    return int(df.publication_year.min()), int(df.publication_year.max())
 
 def publication_types(df: pd.DataFrame) -> pd.DataFrame:
     data = df.groupby('type').agg(publication_count=('id', 'nunique'))

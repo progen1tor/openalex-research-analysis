@@ -61,5 +61,6 @@ def works_getter() -> dict | None:
                         while page_count != PAGE_LIMIT:
                             page_count += 1 
                             all_works_json = requester(s, f'{all_works_url}&page={page_count}&per_page=200')
-                            res.extend(all_works_json.get('results'))
+                            if all_works_json:
+                                res.extend(all_works_json.get('results'))
                         return res 

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 import pandas as pd 
-from constants import GRAPHS_PATH
-from analysis import number_of_publications_by_year, open_access_statistics, publication_types, most_popular_themes
+from src.constants import GRAPHS_PATH
+from src.analysis import number_of_publications_by_year, open_access_statistics, publication_types, most_popular_themes
 
 def number_of_publications_by_year_graph(df: pd.DataFrame) -> None: 
     data = number_of_publications_by_year(df).reset_index()
@@ -53,15 +53,16 @@ def open_access_statistics_graph(df: pd.DataFrame) -> None:
     
 def publication_types_graph(df: pd.DataFrame) -> None: 
     data = publication_types(df)
-    data_pt_1 = data.loc[data.publication_count >= 50].reset_index()
-    data_pt_2 = data.loc[data.publication_count < 50].reset_index()
+    data_pt_1 = data.loc[data.publication_count >= 30].reset_index()
+    data_pt_2 = data.loc[data.publication_count < 20].reset_index()
     
     _, axes = plt.subplots(nrows=1, ncols=2, figsize=(16, 8))
     sns.barplot(
         data_pt_1, 
         x='type', 
         y='publication_count', 
-        ax=axes[0], palette=['#264653','#2A9D8F','#E9C46A'],
+        ax=axes[0],
+        palette='rocket',
         hue='type'
         )
     sns.barplot(
@@ -69,7 +70,7 @@ def publication_types_graph(df: pd.DataFrame) -> None:
         x='type', 
         y='publication_count', 
         ax=axes[1], 
-        palette=['#F4A261','#E76F51','#457B9D','#1D3557','#A8DADC'],
+        palette='mako',
         hue='type'
         )
     
@@ -77,7 +78,7 @@ def publication_types_graph(df: pd.DataFrame) -> None:
     axes[0].set_xlabel('Type', fontsize=13.5)
     axes[1].set_xlabel('Type', fontsize=13.5)
     axes[0].tick_params(axis='x', labelsize=12)  
-    axes[1].tick_params(axis='x', labelsize=12)
+    axes[1].tick_params(axis='x', labelsize=10, labelrotation=45)
     
     plt.savefig(
         f'{GRAPHS_PATH}publication_types_graph.png', 

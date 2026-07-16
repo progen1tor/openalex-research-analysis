@@ -1,11 +1,11 @@
 import json 
 import pandas as pd 
-from constants import RAW_DATA_FILENAME
+# from constants import RAW_DATA_FILENAME
 from typing import Any 
 from urllib.parse import urlparse 
 
 
-def raw_data_loader(filename: str = RAW_DATA_FILENAME) -> list[dict[str, Any]]:
+def raw_data_loader(filename: str) -> list[dict[str, Any]]:
     with open(filename, encoding='utf8') as file:
         data = json.load(file)
         return data 
@@ -43,8 +43,8 @@ def dataframe_preparer(data: list[dict[str, Any]]) -> pd.DataFrame:
     
     kwords = df.keywords.apply(lambda kwds: [kw.get('display_name') for kw in kwds])
     df.keywords = kwords
-    
-    primary_topics = df.primary_topic.apply(lambda pt: pt.get('display_name'))
+
+    primary_topics = df.primary_topic.apply(lambda pt: pt.get('display_name') if pt else None)
     df.primary_topic = primary_topics
     
     access = df.open_access.apply(lambda oa: oa.get('is_oa'))
@@ -56,7 +56,10 @@ def dataframe_preparer(data: list[dict[str, Any]]) -> pd.DataFrame:
     
     df.id = df.id.apply(id_extractor)
     
+    df = df.dropna(subset=['id', 'title', 'publication_year'])
+    df.publication_year = df.publication_year.astype('int64')
+    
     return df
 
     
-openalex_dataframe = dataframe_preparer(raw_data_loader(RAW_DATA_FILENAME))
+# openalex_dataframe = dataframe_preparer(raw_data_loader(RAW_DATA_FILENAME))
