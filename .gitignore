@@ -2,7 +2,9 @@ src/tests.ipynb
 src/__pycache__
 src/analysis_ideas.txt
 
-data/raw.json
+data/
+results/
 
 *.log
+
 *.pyc 
