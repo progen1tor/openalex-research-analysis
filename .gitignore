@@ -3,7 +3,7 @@ src/__pycache__
 src/analysis_ideas.txt
 
 data/
-results/
+results/csv 
 
 *.log
 
