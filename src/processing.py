@@ -60,6 +60,3 @@ def dataframe_preparer(data: list[dict[str, Any]]) -> pd.DataFrame:
     df.publication_year = df.publication_year.astype('int64')
     
     return df
-
-    
-# openalex_dataframe = dataframe_preparer(raw_data_loader(RAW_DATA_FILENAME))
