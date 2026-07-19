@@ -1,10 +1,10 @@
 # OpenAlex Research Analysis 
 
-![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white) 
-![Pandas](https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white) 
-![Seaborn](https://img.shields.io/badge/Seaborn-4C72B0?logo=python&logoColor=white) 
-![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?logo=python&logoColor=white) 
-![OpenAlex](https://img.shields.io/badge/OpenAlex-API-green) 
+![Python](https://img.shields.io/badge/Python-3.13-3776AB)
+![Pandas](https://img.shields.io/badge/Pandas-3.0.3-150458)
+![Seaborn](https://img.shields.io/badge/Seaborn-0.13.2-4C72B0)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-3.10.7-11557C)
+![OpenAlex](https://img.shields.io/badge/OpenAlex-API-green)
 
 В рамках проекта из API OpenAlex извлекаются данные, имеющие отношение к НИУ "Высшая школа экономики" (HSE, Higher School of Economics). После этого выполняется предварительная обработка данных, проводится разведочный анализ данных с использованием библиотеки pandas и строятся визуализации с помощью Seaborn и Matplotlib. Результаты анализа экспортируются в CSV-файлы и графики.
 
