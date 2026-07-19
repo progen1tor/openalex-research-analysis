@@ -60,6 +60,7 @@ openalex-research-analysis/
 | [matplotlib](https://matplotlib.org/stable/index.html) | построение графиков |
 | [seaborn](https://seaborn.pydata.org/) | визуализация данных |
 | [requests](https://requests.readthedocs.io/en/latest/index.html) | работа с OpenAlex API |
+| [fake-useragent](https://pypi.org/project/fake-useragent/) | случайный User-Agent для запросов |
 | [urllib.parse](https://docs.python.org/3/library/urllib.parse.html#module-urllib.parse) | обработка URL |
 | [logging](https://docs.python.org/3/library/logging.html) | логирование ошибок |
 | [typing](https://docs.python.org/3/library/typing.html) | аннотации типов |
